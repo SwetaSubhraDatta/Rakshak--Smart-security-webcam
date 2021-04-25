@@ -16,8 +16,7 @@ class Vision_Engine():
 
         def Detect_Motion(self,frame):
             Motion_Detected = False
-            frame_copy=np.copy(frame)
-            background=self.backsub.apply(frame_copy)
+            background=self.backsub.apply(frame)
             median_blur=cv2.medianBlur(background,7)
             contours,hierarchy=cv2.findContours(median_blur,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
             for cnts in contours:
@@ -39,8 +38,7 @@ class Vision_Engine():
             camera_blockage_counter=0
             Tamper_Detected= False
             histograms=np.zeros(shape=(256,1))
-            frame_copy = np.copy(frame)
-            gray=cv2.cvtColor(frame_copy,cv2.COLOR_BGR2GRAY)
+            gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 
             for i in range(gray.shape[0]):
                 for j in range (gray.shape[1]):
@@ -64,8 +62,7 @@ class Vision_Engine():
         def Detect_face(self,frame):
             Face_Detected=False
             face_count=0
-            frame_copy = np.copy(frame)
-            gray_image=cv2.cvtColor(frame_copy,cv2.COLOR_BGR2GRAY)
+            gray_image=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
             faces=self.facecacade.detectMultiScale(gray_image,1.3,5)
             if (len(faces)!=0):
                 Face_Detected=True
@@ -89,6 +86,7 @@ def capture_Video():
     cap=cv2.VideoCapture(0)
     while(True):
         ret,frame=cap.read()
+        frame_copy=np.copy(frame)
         ######@PRAGNA AND @BHAVYA###
         #####Notification for the AI engine can be get from here
         ##You need to
@@ -96,10 +94,11 @@ def capture_Video():
         ##Step 2: Make methods that takes notifcations as paramter
         ##Step 3: make Decsions
 
-        notifcation,frame=VE.Notify_AI_engine_KB(frame)
+        notifcation,frame=VE.Notify_AI_engine_KB(frame_copy)
         print(notifcation)
-        cv2.imshow("Frame",frame)
-        cv2.waitKey(1)
+        cv2.imshow("frame",frame_copy)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            exit("KeyboardInterrupt")
 
 
 if __name__=="__main__":
