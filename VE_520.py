@@ -58,8 +58,9 @@ class Vision_Engine():
 
             return Tamper_Detected
 
+        """This method detects face in  frame usng the concepts of haarcascades
 
-
+        @return bool(Tamper Detected"""
         def Detect_face(self,frame):
             Face_Detected=False
             face_count=0
