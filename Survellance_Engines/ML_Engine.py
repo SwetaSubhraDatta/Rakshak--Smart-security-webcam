@@ -1,9 +1,7 @@
 import cv2
-import numpy
 from Survellance_Engines.Vision_engine import Vision_Engine
-import os
 import playsound
-import threading
+
 
 
 class ML_Engine():
@@ -132,14 +130,6 @@ class ML_Engine():
 
     def play_Sound(self):
         return playsound.playsound("Resources/alert.mp3")
-
-
-
-
-
-
-
-
 
     def __del__(self):
         del(self.VI)

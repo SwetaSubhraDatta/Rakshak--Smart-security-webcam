@@ -1,10 +1,6 @@
 import User_Control
 
 def main():
-    sensitivity_level = 0
-    ENGINE = 0
-    ML_ENGINE=False
-    Test_Comparison=False
     print("1 -Low Sesnitivity can only detect Large motion")
     print("2-Medium Sensitivity can detect significant disturbance in two frames")
     print("3- Will detect every single motion")
@@ -22,12 +18,11 @@ def main():
         ENGINE=input("Press 1 or 2 or 3")
         ENGINE=int(ENGINE)
         if(ENGINE==1):
-            ML_ENGINE=True
-            User_Control.start_Survelleince_Agent(sensitivity_level,ML_ENGINE)
+            User_Control.start_Survelleince_Agent(ML_ENGINE=True)
         elif(ENGINE==2):
-            User_Control.start_Survelleince_Agent(sensitivity_level,ML_ENGINE)
+            User_Control.start_Survelleince_Agent(ML_ENGINE=False)
         elif(ENGINE==3):
-            User_Control.start_Survelleince_Agent(sensitivity_level,ML_ENGINE,test_Comparison=True)
+            User_Control.start_Survelleince_Agent(ML_ENGINE=False,test_Comparison=True)
 
         else:
             print("Ooopsie looks like you have selected a wrong option.Try again")

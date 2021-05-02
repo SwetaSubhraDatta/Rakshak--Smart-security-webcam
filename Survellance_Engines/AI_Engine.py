@@ -10,7 +10,14 @@ class AI_Engine():
 
   def knowledge_base(self,frame):
     self.Tamper=False
+    LOGGING=False #Change this if you need logs
     notification, frame = self.VI.Notify_AI_engine_KB(frame)
+
+    """Change this if you need LOGS for KB"""
+    if(LOGGING):
+      print(notification)
+
+
     if(notification[2]==True):
       self.Tamper=True
     #print(notification)
@@ -35,6 +42,9 @@ class AI_Engine():
     cv2.putText(frame, "AI_KB_SIMULATOR", (frame.shape[0] - 250, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                 (0, 220, 255), 2)
     return frame
+
+  def __del__(self):
+    del(self.VI)
 
 
 
