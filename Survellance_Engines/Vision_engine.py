@@ -1,8 +1,9 @@
-"""Created by Sweta Subhra Datta
+"""Created by Sweta Subhra Datta Praga Bollam And Bhavya Omprakash Agarwal
 April 24th,2021
 """
 import cv2
 import numpy as np
+
 
 
 
@@ -28,11 +29,10 @@ class Vision_Engine():
             # cv2.imshow("frame",median_blur)
             # if cv2.waitKey(1) & 0xFF == ord('q'):
             #     exit("KeyboardInterrupt")
-            return Motion_Detected
+            return Motion_Detected,contours
 
 
-        """This method detects camera covering or camera obstruction in every frame
-        
+        """This method detects camera covering or camera obstruction in every frame       
         @return bool(Tamper Detected"""
         def Detect_Tamper(self,frame):
             camera_blockage_counter=0
@@ -52,54 +52,30 @@ class Vision_Engine():
             if(camera_blockage_counter>60):
                 Tamper_Detected=True
                 #print("Tamper Status",Tamper_Detected)
-
-
             return Tamper_Detected
 
         """This method detects face in  frame usng the concepts of haarcascades
-
         @return bool(Tamper Detected"""
         def Detect_face(self,frame):
             Face_Detected=False
             face_count=0
             gray_image=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-            faces=self.facecacade.detectMultiScale(gray_image,1.3,5)
+            faces=self.facecacade.detectMultiScale(gray_image,1.3,2)
             if (len(faces)!=0):
                 Face_Detected=True
                 for each_face in faces:
                     face_count=face_count+1
 
+
             return  Face_Detected
 
 
         def Notify_AI_engine_KB(self,frame):
-            Motion_Detected=self.Detect_Motion(frame)
+            Motion_Detected,_=self.Detect_Motion(frame)
             Face_Detected=self.Detect_face(frame)
             Tamper_Detected=self.Detect_Tamper(frame)
             notification=(Motion_Detected,Face_Detected,Tamper_Detected)
             return notification,frame
 
 
-def capture_Video():
-    VE=Vision_Engine()
-    print("Make sure you are running this on a local machine and your camera is functional")
-    cap=cv2.VideoCapture(0)
-    while(True):
-        ret,frame=cap.read()
-        frame_copy=np.copy(frame)
-        ######@PRAGNA AND @BHAVYA###
-        #####Notification for the AI engine can be get from here
-        ##You need to
-        ## Step 1:Make a class of AI_engine
-        ##Step 2: Make methods that takes notifcations as paramter
-        ##Step 3: make Decsions
 
-        notifcation,frame=VE.Notify_AI_engine_KB(frame_copy)
-        print(notifcation)
-        cv2.imshow("frame",frame_copy)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            exit("KeyboardInterrupt")
-
-
-if __name__=="__main__":
-    capture_Video()
