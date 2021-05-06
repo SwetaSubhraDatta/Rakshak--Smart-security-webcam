@@ -3,6 +3,7 @@ April 24th,2021
 """
 import cv2
 import numpy as np
+import os
 
 
 
@@ -18,7 +19,9 @@ class Vision_Engine():
         def Detect_Motion(self,frame):
             Motion_Detected = False
             background=self.backsub.apply(frame)
-            median_blur=cv2.medianBlur(background,7)
+            median_blur=cv2.medianBlur(background,7)#noise reduction
+            #Detect contours
+            # cv2.imshow("background_sub",median_blur)
             contours,hierarchy=cv2.findContours(median_blur,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
             for cnts in contours:
                 if(cv2.contourArea(cnts)>50):
@@ -39,7 +42,7 @@ class Vision_Engine():
             Tamper_Detected= False
             histograms=np.zeros(shape=(256,1))
             gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-
+            #Image histogram analyisis
             for i in range(gray.shape[0]):
                 for j in range (gray.shape[1]):
                     binIndex=gray[i,j]
@@ -54,7 +57,7 @@ class Vision_Engine():
                 #print("Tamper Status",Tamper_Detected)
             return Tamper_Detected
 
-        """This method detects face in  frame usng the concepts of haarcascades
+        """This method detects face in  frame using the concepts of haarcascades
         @return bool(Tamper Detected"""
         def Detect_face(self,frame):
             Face_Detected=False
@@ -69,7 +72,7 @@ class Vision_Engine():
 
             return  Face_Detected
 
-
+        "This function notifies the AI engine with the tuple of events detected"
         def Notify_AI_engine_KB(self,frame):
             Motion_Detected,_=self.Detect_Motion(frame)
             Face_Detected=self.Detect_face(frame)
