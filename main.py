@@ -9,7 +9,7 @@ def main():
     sensitivity_level = input("\nEnter sensitivity level")
     sensitivity_level=int(sensitivity_level)
     if(sensitivity_level==1 or sensitivity_level==2 or sensitivity_level==3):
-        print("\nNow I have two options for you")
+        print("\nNow I have two options for you to choose")
         print("I can run on AI_Engine using KB system to detect intruder")
         print("Also I can use the more sophisticated ML_Engine \n")
         print("Choose 1-ML_ENGINE 2-AI_ENGINE 3-Test_For _Comparison")
